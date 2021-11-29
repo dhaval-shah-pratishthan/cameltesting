@@ -1,0 +1,31 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,camelroutes
+  endpoint:
+    health:
+      enabled: 'true'
+    camelroutes:
+      read-only: 'true'
+      enabled: 'true'
+http:
+  ssl_data:
+    key_store: /Users/dhavalshah/Documents/Finacle/BlockChain/HTTPs-DUMMY-SERVER/newkeys/client-keystore.jks
+    trust_store: /Users/dhavalshah/Documents/Finacle/BlockChain/HTTPs-DUMMY-SERVER/newkeys/client-truststore.jks
+    key_store_password: prat123
+    key_store_type: JKS
+    trust_store_password: prat123
+    key_alias: java-client
+    trust_store_type: JKS
+  ssl_enabled: 'true'
+greeting: Hello World
+camel:
+  springboot:
+    name: MyCamel
+  component:
+    servlet:
+      mapping:
+        context-path: /*
+timer:
+  period: '2000'
