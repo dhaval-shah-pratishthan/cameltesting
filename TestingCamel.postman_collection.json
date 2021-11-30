@@ -52,6 +52,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Dynamic Route",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"whichUtility\":\"FBCUtility\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testBean",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testBean"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
