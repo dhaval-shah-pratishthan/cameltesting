@@ -3,6 +3,9 @@ package com.edgeverve.routes;
 import com.edgeverve.processors.exceptionHandler;
 import com.edgeverve.processors.processException;
 import com.edgeverve.utilityInterface.UtilityMetaData;
+import org.apache.camel.BeanScope;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+
+import static org.apache.camel.builder.Builder.bean;
 
 @Component
 public class httpRoutes extends RouteBuilder {
@@ -23,8 +28,7 @@ public class httpRoutes extends RouteBuilder {
     public void configure() throws Exception {
         restConfiguration().component("servlet");
 
-        UtilityMetaData metaData = new UtilityMetaData();
-        metaData.setAppContext(appContext);
+//        UtilityMetaData metaData = new UtilityMetaData(appContext);
 
         rest("/api/customers")
                 .post()
@@ -41,8 +45,11 @@ public class httpRoutes extends RouteBuilder {
             .post()
             .route()
             .convertBodyTo(String.class)
-            .bean(metaData, "setPluginBase")
-            .dynamicRouter(method(metaData, "route"))
+            .bean(UtilityMetaData.class, "setPluginBase", BeanScope.Request)
+            .bean(UtilityMetaData.class, "getPluginBase", BeanScope.Request)
+                .bean(UtilityMetaData.class, "prepareRequest ", BeanScope.Request)
+            .toD("${exchangeProperty.camelRoute}")
+//            .dynamicRouter(bean(UtilityMetaData.class, "route"))
             .end();
 
         from("direct:callTestRoutePath").routeId("callingCorrespondingUtility")

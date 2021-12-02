@@ -38,6 +38,15 @@ public class FBCUtilityHttpRoute extends RouteBuilder {
                 .removeHeader(Exchange.HTTP_URI)
                 .to(FBCHttp)
                 .end();
+        Endpoint FIHttp = setupSSLConext(getContext());
+        from("direct:callTestFIUtility").routeId("callTestFBCUtility")
+                .setHeader("Content-Type", constant("application/json"))
+                .setHeader("Accept", constant("application/json"))
+                .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+                .removeHeader(Exchange.HTTP_PATH)
+                .removeHeader(Exchange.HTTP_URI)
+                .to(FIHttp)
+                .end();
     }
 
     public void setHttp(HashMap<String, Object> http) {
@@ -85,7 +94,9 @@ public class FBCUtilityHttpRoute extends RouteBuilder {
 //        httpComponent.setClientConnectionManager((HttpClientConnectionManager) new ThreadSafeClientConnManager());
             //This is important to make your cert skip CN/Hostname checks
 
-            return httpComponent.createEndpoint("https://secnodeserver.com:8000");
+            HashMap<String, Object> options = (HashMap<String, Object>)http.get("options");
+
+            return httpComponent.createEndpoint("https://secnodeserver.com:8000", options);
         }
         catch (Exception e){
             e.printStackTrace();

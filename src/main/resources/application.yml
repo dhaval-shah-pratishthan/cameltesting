@@ -19,6 +19,18 @@ http:
     key_alias: java-client
     trust_store_type: JKS
   ssl_enabled: 'true'
+  options:
+    connectionRequestTimeout: 100
+    connectTimeout: 100
+    socketTimeout: 100
+    maxTotalConnections: 20
+    connectionsPerRoute: 20
+    #for basic auth
+    authUsername: xxxx
+    authPassword: yyyy
+    authDomain: zzzz
+    authHost: aaaa
+
 greeting: Hello World
 camel:
   springboot:
@@ -29,3 +41,33 @@ camel:
         context-path: /*
 timer:
   period: '2000'
+
+utilities1: abc
+
+utilities:
+  fbc:
+    type: http
+    http:
+      base_url: 'https://secnodeserver.com:8000'
+      ssl_data:
+        key_store: /PATH/TO/client-keystore.jks
+        trust_store: /PATH/TO/client-truststore.jks
+        key_store_password: KeyStorePassword
+        key_store_type: JKS
+        trust_store_password: TrustStorePassword
+        key_alias: java-client
+        trust_store_type: JKS
+      ssl_enabled: 'true'
+      options:
+        connectionRequestTimeout: 100
+        connectTimeout: 100
+        socketTimeout: 100
+        maxTotalConnections: 20
+        connectionsPerRoute: 20
+        #for basic auth
+        authUsername: xxxx
+        authPassword: yyyy
+        authDomain: zzzz
+        authHost: aaaa
+
+
